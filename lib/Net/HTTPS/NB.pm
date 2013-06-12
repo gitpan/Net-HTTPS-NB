@@ -6,7 +6,7 @@ use IO::Socket::SSL 0.98;
 use Exporter;
 use vars qw($VERSION @ISA @EXPORT $HTTPS_ERROR);
 
-$VERSION = 0.12;
+$VERSION = 0.13;
 
 =head1 NAME
 
@@ -126,6 +126,13 @@ determine when connection completed.
 sub new {
 	my ($class, %args) = @_;
 	
+	my %ssl_opts;
+	while (my $name = each %args) {
+		if (substr($name, 0, 4) eq 'SSL_') {
+			$ssl_opts{$name} = delete $args{$name};
+		}
+	}
+	
 	unless (exists $args{PeerPort}) {
 		$args{PeerPort} = 443;
 	}
@@ -135,14 +142,15 @@ sub new {
 		or return;
 	
 	# and upgrade it to SSL then
-	$class->start_SSL($self, SSL_startHandshake => 0);
+	$class->start_SSL($self, %ssl_opts, SSL_startHandshake => 0)
+		or return;
 	
 	if (!exists($args{Blocking}) || $args{Blocking}) {
 		# blocking connect
 		$self->connected()
 			or return;
 	}
-	# non-blocking handshake will started after SUPER::connected
+	# non-blocking handshake will be started after SUPER::connected
 	
 	return $self;
 }
@@ -151,7 +159,7 @@ sub new {
 
 Returns true value when connection completed (https handshake done). Otherwise
 returns false. In this case you can check $HTTPS_ERROR to determine what handshake
-need for, read or write. $HTTPS_ERROR could be HTTPS_NEED_READ or HTTPS_NEED_WRITE
+need for, read or write. $HTTPS_ERROR could be HTTPS_WANT_READ or HTTPS_WANT_WRITE
 respectively. See L</SYNOPSIS>.
 
 =cut
@@ -272,7 +280,7 @@ L<Net::HTTP>, L<Net::HTTP::NB>
 
 =head1 COPYRIGHT
 
-Copyright 2011 Oleg G <oleg@cpan.org>.
+Copyright 2011-2013 Oleg G <oleg@cpan.org>.
 
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

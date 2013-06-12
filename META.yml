@@ -1,28 +1,28 @@
---- #YAML:1.0
-name:               Net-HTTPS-NB
-version:            0.12
-abstract:           Non-blocking HTTPS client
+---
+abstract: 'Non-blocking HTTPS client'
 author:
-    - Oleg G <oleg@cpan.org>
-license:            perl
-distribution_type:  module
-configure_requires:
-    ExtUtils::MakeMaker:  0
+  - 'Oleg G <oleg@cpan.org>'
 build_requires:
-    ExtUtils::MakeMaker:  0
-requires:
-    Exporter:         0
-    IO::Socket::SSL:  0.98
-    Net::HTTP:        0
-    Net::HTTPS:       0
-    Test::More:       0.88
-resources:
-    repository:  https://github.com/olegwtf/p5-Net-HTTPS-NB
-no_index:
-    directory:
-        - t
-        - inc
-generated_by:       ExtUtils::MakeMaker version 6.56
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.120921'
+license: perl
 meta-spec:
-    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
-    version:  1.4
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Net-HTTPS-NB
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Exporter: 0
+  IO::Socket::SSL: 0.98
+  Net::HTTP: 0
+  Net::HTTPS: 0
+  Test::More: 0.88
+resources:
+  repository: https://github.com/olegwtf/p5-Net-HTTPS-NB
+version: 0.13
